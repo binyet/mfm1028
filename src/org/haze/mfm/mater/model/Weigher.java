@@ -15,7 +15,7 @@ public class Weigher extends BaseModel{
 	private static final long serialVersionUID = 1L;
 	private Long id;//编号
 	private String weigherName;	//过磅人
-	private String monitorName;//监磅人
+	private String remark;//备注
 	public Long getId() {
 		return id;
 	}
@@ -35,16 +35,16 @@ public class Weigher extends BaseModel{
 		this.weigherName = weigherName;
 	}
 	/**
-	 * @return the monitorName
+	 * @return the remark
 	 */
-	public String getMonitorName() {
-		return monitorName;
+	public String getRemark() {
+		return remark;
 	}
 	/**
-	 * @param monitorName the monitorName to set
+	 * @param remark the remark to set
 	 */
-	public void setMonitorName(String monitorName) {
-		this.monitorName = monitorName;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 

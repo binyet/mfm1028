@@ -1,6 +1,7 @@
 package org.haze.mfm.mater.controller;
 import javax.annotation.Resource;
 
+import org.haze.base.util.UniqueIdUtil;
 import org.haze.mfm.mater.model.Weigher;
 import org.haze.mfm.mater.service.WeigherService;
 import org.springframework.stereotype.Controller;
@@ -21,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/Weigher/")
 public class WeigherController {
-	public final static String WEIGHER_LIST ="greClient/mfm/mater/weigh/weighList.jsp";//称重管理页面
-	public final static String WEIGHER_EDIT ="greClient/mfm/mater/weigh/weighEdit.jsp";//称重编辑页面
+	public final static String WEIGHER_LIST ="gresource/mfm/mater/weigher/weigherList.jsp";//过磅人管理页面
+	public final static String WEIGHER_EDIT ="gresource/mfm/mater/weigher/weigherEdit.jsp";//过磅人编辑页面
 	
 	
 	@Resource
@@ -67,8 +68,51 @@ public class WeigherController {
 	 */
 	@RequestMapping("edit")
 	public ModelAndView edit(Weigher weigher,ModelMap modelMap) throws Exception{
+		Long id = weigher.getId();
+		if(null != id && id != 0L){//如果有id就是修改
+			weigher = weigherService.selectOne(id);
+		}else{//新增
+
+			weigher = new Weigher();
+		}
+		modelMap.put("weigher", weigher);
 		return new ModelAndView(WeigherController.WEIGHER_EDIT,modelMap);
 	}
 
+
+	
+	/**
+	 * 保存
+	 * @param weigher
+	 * @param modelMap
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("save")
+	public ModelAndView save(Weigher weigher,ModelMap modelMap) throws Exception{
+		Long id = weigher.getId();
+		if(null != id && id != 0L){//如果有id就是修改
+			weigherService.update(weigher);
+			modelMap.put("message", "修改成功!");
+		}else{//新增
+			weigher.setId(UniqueIdUtil.genId());//添加Id
+			weigherService.insert(weigher);
+			 modelMap.put("message", "保存成功!");
+		}
+		return edit(weigher, modelMap);
+	}
+	
+	/**
+	 * 删除信息
+	 * @param weigher
+	 * @param modelMap
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("del")
+	public ModelAndView del(Weigher weigher,ModelMap modelMap) throws Exception{
+		weigherService.delById(weigher.getIds());
+		return list(weigher, modelMap);
+	}
 
 }

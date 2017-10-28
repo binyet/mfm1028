@@ -22,9 +22,12 @@ import org.haze.base.util.UniqueIdUtil;
 import org.haze.mfm.mater.dao.WeighDao;
 import org.haze.mfm.mater.model.Ares;
 import org.haze.mfm.mater.model.Client;
+import org.haze.mfm.mater.model.Driver;
 import org.haze.mfm.mater.model.Property;
 import org.haze.mfm.mater.model.Weigh;
+import org.haze.mfm.mater.service.AresService;
 import org.haze.mfm.mater.service.ClientService;
+import org.haze.mfm.mater.service.DriverService;
 import org.haze.mfm.mater.service.PropertyService;
 import org.haze.mfm.mater.service.WeighService;
 import org.springframework.stereotype.Controller;
@@ -60,6 +63,12 @@ public class WeighController {
 	
 	@Resource
 	private PropertyService propertyService;
+	
+	@Resource
+	private AresService aresService;
+	
+	@Resource
+	private DriverService driverService;
 	
 	@Resource
 	private WeighDao weighDao;
@@ -182,8 +191,11 @@ public class WeighController {
 			
 			updateCleint(weigh, checi);//对客户车次进行更新维护, 根据称重表中的客户名
 			
-			weigh.setClient(getClientID(weigh)+"");
-			weigh.setProperty(getPropertyID(weigh)+"");
+			weigh.setClient(getClientID(weigh)+"");	//设置客户部分，将客户的ID存入称重表中
+			weigh.setProperty(getPropertyID(weigh)+"");	//设置性质部分，将性质的ID存入称重表中
+			weigh.setAresName(getAresID(weigh)+"");		//设置存放区域部分，将存放区域的ID存入称重表中
+			weigh.setDriver(getDriverID(weigh)+"");		//设置司机部分，将司机的ID存放在称重表中
+			
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 			weigh.setWeighDate(df.format(new Date()));
 			weigh.setId(UniqueIdUtil.genId());//添加Id
@@ -203,6 +215,28 @@ public class WeighController {
 		return edit(weigh, modelMap);
 	}
 	
+	private Long getDriverID(Weigh weigh) throws Exception {
+		// TODO Auto-generated method stub
+		Driver driver = new Driver();
+		driver.setDriverName(weigh.getDriver());
+		List<Driver> driverList = driverService.select(driver);
+		if(driverList.size() != 0){
+			return driverList.get(0).getId();
+		}
+		return null;
+	}
+
+	private Long getAresID(Weigh weigh) throws Exception {
+		// TODO Auto-generated method stub
+		Ares ares = new Ares();
+		ares.setAresName(weigh.getAresName());
+		List<Ares> aresList = aresService.select(ares);
+		if(aresList.size() != 0){
+			return aresList.get(0).getId();
+		}
+		return null;
+	}
+
 	private Long getPropertyID(Weigh weigh) throws Exception {
 		// TODO Auto-generated method stub
 		Property property = new Property();

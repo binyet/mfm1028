@@ -79,7 +79,7 @@
 							url:'${ctx }/mfm/Client/getComboboxList.haze'
 							}
 						}" >客户</th>
-				<th data-options="field:'carNum',width:60,align:'center'" editor="{type:'numberbox',options:{precision:0,required:true}}">车号</th>
+				<th data-options="field:'carNum',width:60,align:'center'" editor="{type:'text'}">车号</th>
 				<th data-options="field:'driver',width:80,align:'center', formatter:function(value,row,index){return row.driver},
 					editor:{
 						type:'combobox',
@@ -115,7 +115,17 @@
 							url:'${ctx }/mfm/Weigher/getComboboxList.haze'
 							}
 						}">过磅人</th>
-				<th data-options="field:'auditor',width:60,align:'center'" editor="{type:'numberbox',options:{precision:3}}">审核人</th>
+				<th data-options="field:'auditor',width:80,align:'center', formatter:function(value,row,index){return row.auditor},
+					editor:{
+						type:'combobox',
+						options:{
+							valueField:'auditor',
+							textField:'auditor',
+							editable:false,
+							url:'${ctx }/mfm/Auditor/getComboboxList.haze'
+							}
+						}">监磅人</th>
+						
 				<th data-options="field:'weighDate',width:200,align:'center'">时间</th>
 				<th data-options="field:'maiduan',width:80,align:'center', formatter:function(value,row,index){return row.maiduan},
 					editor:{
@@ -255,10 +265,9 @@ $(document).ready(function(){
 		},
 		onSelect:function(index, row){//当用户选择一行时 右边的数据就会变化
 			//alert(index);
-			//alert(row.property);
 			 updateJb();
-			 
 			 //选中行后，判断各个单元格的editor是否删除或创建
+
 			 if(row.property == undefined || row.property == ""){
 				 $("#datagrid1").datagrid('addEditor',[ {field:'property',editor:{
                               type:'combobox',
@@ -275,7 +284,7 @@ $(document).ready(function(){
 			 else{
 				 	$("#datagrid1").datagrid('removeEditor','property');
 			 }
-			 
+
 			 if(row.source == undefined||row.source == ""){
 				 $("#datagrid1").datagrid('addEditor',[ {field:'source',editor:{
                      type:'combobox',
@@ -291,8 +300,9 @@ $(document).ready(function(){
 			 }
 			 else{
 				 	$("#datagrid1").datagrid('removeEditor','source');
-				 
 			 }
+			 
+
 			 if(row.client == undefined || row.client == ""){
 				 $("#datagrid1").datagrid('addEditor',[ {field:'client',editor:{
                      type:'combobox',
@@ -308,7 +318,7 @@ $(document).ready(function(){
 			 }else
 				 	$("#datagrid1").datagrid('removeEditor','client');
 			 
-			 
+
 			 if(row.driver == undefined || row.driver == ""){
 				 $("#datagrid1").datagrid('addEditor',[ {field:'driver',editor:{
                      type:'combobox',
@@ -323,6 +333,8 @@ $(document).ready(function(){
              	}]);
 			 }else
 				 $("#datagrid1").datagrid('removeEditor','driver');
+			 
+			 
 			 if(row.carNum == undefined || row.carNum == ""){
 				 $("#datagrid1").datagrid('addEditor',[ {field:'carNum',editor:{
                      type:'textbox',
@@ -349,6 +361,8 @@ $(document).ready(function(){
 			 else
 				 	$("#datagrid1").datagrid('removeEditor','maozhong');
 			 
+			 
+
 			 /*
 			 if(row.aresName == undefined || row.aresName == ""){
 				 $("#datagrid1").datagrid('addEditor',[ {field:'aresName',editor:{
@@ -391,6 +405,21 @@ $(document).ready(function(){
              	}]);
 			 }else
 				 	$("#datagrid1").datagrid('removeEditor','weigher');
+			 
+			 if(row.auditor == undefined || row.auditor ==""){
+				 $("#datagrid1").datagrid('addEditor',[ {field:'auditor',editor:{
+                     type:'combobox',
+                     options:{
+							valueField:'auditor',
+							textField:'auditor',
+							editable:false,
+							required:true,
+							url:'${ctx }/mfm/Auditor/getComboboxList.haze'
+							}
+                 }
+             	}]);
+			 }else
+				 	$("#datagrid1").datagrid('removeEditor','auditor');
 
 		 },
 		onUnselect:function(index, row){

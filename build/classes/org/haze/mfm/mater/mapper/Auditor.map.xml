@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.haze.mfm.mater.model.Weigher">
-	<resultMap type="org.haze.mfm.mater.model.Weigher" id="Weigher">
+<mapper namespace="org.haze.mfm.mater.model.Auditor">
+	<resultMap type="org.haze.mfm.mater.model.Auditor" id="Auditor">
 		<id column="ID" property="id" jdbcType="NUMERIC"/><!-- 编号 -->
-		<result column="WEIGHER" property="weigherName" jdbcType="VARCHAR"/><!-- 过磅人姓名 -->
-		<result column="REMARK" property="remark" jdbcType="VARCHAR"/><!-- 备注 -->
-		
+		<result column="AUDITOR" property="auditor" jdbcType="VARCHAR"/><!-- 监磅人名称 -->
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/><!-- 性质 -->
 	</resultMap>
 
 
 	<!--查询所有  -->
-	<select id="select" resultMap="Weigher">
+	<select id="select" resultMap="Auditor">
 		SELECT
 			ID,
-			WEIGHER,
+			AUDITOR,
 			REMARK
 		FROM
-			MATER_WEIGHER
+			MATER_AUDITOR
 		WHERE 
 			1=1
 	</select>
 	
+	
 		<!--增加  -->
 	<insert id="insert">
-		INSERT INTO MATER_WEIGHER(
+		INSERT INTO MATER_AUDITOR(
 			ID,
-			WEIGHER,
+			AUDITOR,
 			REMARK
 		)VALUES(
 			#{id,jdbcType=NUMERIC},
-			#{weigherName,jdbcType=VARCHAR},
+			#{auditor,jdbcType=VARCHAR},
 			#{remark,jdbcType=VARCHAR}
 		)
 	</insert>
@@ -38,10 +38,10 @@
 	<update id="update">
 		
 		UPDATE
-			MATER_WEIGHER
+			MATER_AUDITOR
 		SET
 			ID = #{id,jdbcType=NUMERIC},
-			WEIGHER = #{weigherName,jdbcType=VARCHAR},
+			AUDITOR = #{auditor,jdbcType=VARCHAR},
 			REMARK = #{remark,jdbcType=VARCHAR}
 		WHERE 
 			ID = #{id}
@@ -50,13 +50,13 @@
 		
 	
 		<!--查询一个  -->
-	<select id="selectOne" resultMap="Weigher">
+	<select id="selectOne" resultMap="Auditor">
 		SELECT
 			ID,
-			WEIGHER,
+			AUDITOR,
 			REMARK
 		FROM
-			MATER_WEIGHER
+			MATER_AUDITOR
 		WHERE 
 			ID = #{id}
 	</select>
@@ -65,13 +65,14 @@
 		<!--删除  -->
 	<delete id="delById">
 		DELETE FROM
-			MATER_WEIGHER
+			MATER_AUDITOR
 		WHERE
 			ID IN
 		<foreach collection="array" open="(" close=")" separator="," item="id">
 			#{id}
 		</foreach>
 	</delete>
+	
 	
 	
 </mapper>

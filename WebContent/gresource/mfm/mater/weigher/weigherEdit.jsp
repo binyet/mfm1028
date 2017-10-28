@@ -7,7 +7,7 @@
 <title>区域管理的编辑页面</title>
 </head>
 <body>
-	<div id="cc" >
+	<div id="cc">
 		<f:form id="mainform" action="${ctx }/mfm/Weigher/save.haze" method="post">
 			<div data-options="region:'north',border:false" style="height:33px">
 		 		<div id="tb">
@@ -15,22 +15,14 @@
 				</div>
 		 	</div>
 			<div data-options="region:'center',border:false" style="padding-top: 5px;">
-				<input type="hidden" name="id" id="id" value="${Weigher.id}" />
+				<input type="hidden" name="id" id="id" value="${weigher.id}" />
 			
-				<f:form-item labelName="过磅人" labelSm="2" eleSm="3">
-				<!-- 	<input type="text" class="form-control" placeholder="所属客户" validate="{notEmpty:{}}" id="clientName" name="clientName" value="${driver.clientName }"> -->
-					<select name="weigherName" id="weigherName" class="form-control combox-select" validate="{notEmpty:{}}" 
-						data-options="url:'${ctx }/mfm/Weigher/getComboboxList.haze',
-										valueField: 'weigherName',    
-		        						textField: 'weigherName',
-		        						onLoadSuccess: function () { //数据加载完毕事件
-				                            $('#clientName').combobox('select', '${Weigher.weigherName }');
-				                        }"
-					>
-					</select>
+				<f:form-item labelName="过磅人名称" labelSm="2" eleSm="3">
+					<input type="text" class="form-control" placeholder="过磅人名称" validate="{notEmpty:{}}" id="weigherName" name="weigherName" value="${weigher.weigherName }">
 				</f:form-item>
+				
 				<f:form-item labelName="描述" labelSm="2" eleSm="3">
-					<input type="text" class="form-control" placeholder="描述"  id="remark" name="remark" value="${Weigher.remark }">
+					<input type="text" class="form-control" placeholder="描述"  id="remark" name="remark" value="${weigher.remark }">
 				</f:form-item>
 			</div>
 

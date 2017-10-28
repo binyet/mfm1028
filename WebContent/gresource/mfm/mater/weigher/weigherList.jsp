@@ -9,12 +9,12 @@
 	<div id="tb">
 		<div id="buttonDiv"></div>
 	</div>
-	<table id="datagrid" title="来源管理">
+	<table id="datagrid" title="过磅人管理">
 		<thead>
 			<tr>
 				<th data-options="field:'ck',checkbox:true"></th>
 				<th data-options="field:'id',hidden:true" >id</th>
-				<th data-options="field:'sourceName',width:100,align:'left'">名称</th>
+				<th data-options="field:'weigherName',width:100,align:'left'">名称</th>
 				<th data-options="field:'remark',width:100,align:'right'">描述</th>
 			</tr>
 		</thead>
@@ -27,7 +27,7 @@
 var grid;
 	$(document).ready(function(){
 			//从后台获取列表数据
-			grid = datagrid('#datagrid','${ctx }/mfm/Source/getList.haze','#tb',true);
+			grid = datagrid('#datagrid','${ctx }/mfm/Weigher/getList.haze','#tb',true);
 			//消息弹框
 			showMessageInit();
 			//按钮
@@ -38,8 +38,8 @@ var grid;
 				click:function(){
 					//打开弹窗
 					$.gsWindow({
-						url:'${ctx }/mfm/Source/edit.haze',
-						title:'新增区域'
+						url:'${ctx }/mfm/Weigher/edit.haze',
+						title:'新增过磅人'
 					});
 				}
 			},{
@@ -49,8 +49,8 @@ var grid;
 				click:function(){
 					getId(grid,'id',function(id){
 						$.gsWindow({
-							url:'${ctx }/mfm/Source/edit.haze?id='+id,
-							title:'修改区域'
+							url:'${ctx }/mfm/Weigher/edit.haze?id='+id,
+							title:'修改过磅人'
 						});
 					});	
 				}
@@ -76,7 +76,7 @@ var grid;
 	//删除的ajax提交
 	function ajaxSubmit(){
 		$.ajax({
-			url:'${ctx }/mfm/Source/del.haze',
+			url:'${ctx }/mfm/Weigher/del.haze',
 			data:$("#form").serialize(),
 			success:function(data){
 				$.msgtip({
