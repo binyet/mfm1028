@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Pkxx">
+	<resultMap type="org.haze.mfm.mater.model.Pkxx" id="Pkxx">
+		<id  column="ID" property="id" jdbcType="NUMERIC"/>
+		<result column="ORGID" property="orgId" jdbcType="NUMERIC"/>
+		<result column="TOULIAODEPT" property="touliaoDept" jdbcType="VARCHAR"/>
+		<result column="TOULIAOXZ" property="touliaoXz" jdbcType="VARCHAR"/>
+		<result column="PKDATE" property="pkDate" jdbcType="DATE"/>
+		<result column="PKPERSON" property="pkPerson" jdbcType="NUMERIC"/>
+		<result column="PKWETMINE" property="pkWetMine" jdbcType="VARCHAR"/>
+		<result column="PKDARKMINE" property="pxDarkMine" jdbcType="VARCHAR"/>
+		<result column="PKTASTEAU" property="pkTasteAu" jdbcType="VARCHAR"/>
+		<result column="PKCONAU" property="pkConAu" jdbcType="VARCHAR"/>
+		<result column="PKTASTEAG" property="pkTasteAg" jdbcType="VARCHAR"/>
+		<result column="PKCONAG" property="pkConAg" jdbcType="VARCHAR"/>
+		<result column="PKCONS" property="pkConS" jdbcType="VARCHAR"/>
+		<result column="PKCONCU" property="pkConCu" jdbcType="VARCHAR"/>
+		<result column="PKCONPB" property="pkConPb" jdbcType="VARCHAR"/>
+		<result column="PKCONZN" property="pkConZn" jdbcType="VARCHAR"/>
+		<result column="PKCONAS" property="pkConAs" jdbcType="VARCHAR"/>
+		<result column="PKCONSB" property="pkConSb" jdbcType="VARCHAR"/>
+		<result column="PKJINZHAAU" property="pkJinzhaAu" jdbcType="VARCHAR"/>
+		<result column="PKJINZHAAG" property="pkJinzhaAg" jdbcType="VARCHAR"/>
+		<result column="PKHAOYAO" property="pkHaoyao" jdbcType="VARCHAR"/>
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!--所有字段  -->
+	<sql id="allColumn">
+		ID,
+		TOULIAODEPT,
+		ORGID,
+		TOULIAOXZ,
+		PKDATE,
+		PKPERSON,
+		PKWETMINE,
+		PKDARKMINE,
+		PKTASTEAU,
+		PKCONAU,
+		PKTASTEAG,
+		PKCONAG,
+		PKCONS,
+		PKCONCU,
+		PKCONPB,
+		PKCONZN,
+		PKCONAS,
+		PKCONSB,
+		PKJINZHAAU,
+		PKJINZHAAG,
+		PKHAOYAO,
+		REMARK
+	</sql>
+	
+	<!--增加  -->
+	<insert id="insert">
+		INSERT INTO MATER_PKXX(
+		 <include refid="allColumn"/>
+		)VALUES(
+			#{id,jdbcType = NUMERIC},
+			#{touliaoDept,jdbcType = VARCHAR},
+			#{orgId,jdbcType = NUMERIC},
+			#{touliaoXz,jdbcType = VARCHAR},
+			#{pkDate,jdbcType = DATE},
+			#{pkPerson,jdbcType = NUMERIC},
+			#{pkWetMine,jdbcType = VARCHAR},
+			#{pxDarkMine,jdbcType = VARCHAR},
+			#{pkTasteAu,jdbcType = VARCHAR},
+			#{pkConAu,jdbcType = VARCHAR},
+			#{pkTasteAg,jdbcType = VARCHAR},
+			#{pkConAg,jdbcType = VARCHAR},
+			#{pkConS,jdbcType = VARCHAR},
+			#{pkConCu,jdbcType = VARCHAR},
+			#{pkConPb,jdbcType = VARCHAR},
+			#{pkConZn,jdbcType = VARCHAR},
+			#{pkConAs,jdbcType = VARCHAR},
+			#{pkConSb,jdbcType = VARCHAR},
+			#{pkJinzhaAu,jdbcType = VARCHAR},
+			#{pkJinzhaAg,jdbcType = VARCHAR},
+			#{pkHaoyao,jdbcType = VARCHAR},
+			#{remark,jdbcType = VARCHAR}
+		)
+	</insert>
+	
+	<!--修改  -->
+	<update id="update">
+		UPDATE 
+			MATER_PKXX
+		SET
+		  <if test="upd == 'updjb'">
+		  	TOULIAODEPT = #{touliaoDept,jdbcType = VARCHAR},
+		  	ORGID = #{orgId,jdbcType = NUMERIC},
+			TOULIAOXZ = #{touliaoXz,jdbcType = VARCHAR},
+			REMARK = #{remark,jdbcType = VARCHAR},
+		  </if>
+		  <if test="upd == 'updzj'">
+		  	PKWETMINE = PKWETMINE + #{pkWetMine,jdbcType = VARCHAR},
+			PKDARKMINE = PKDARKMINE + #{pxDarkMine,jdbcType = VARCHAR},
+			PKTASTEAU = PKTASTEAU + #{pkTasteAu,jdbcType = VARCHAR},
+			PKCONAU = PKCONAU + #{pkConAu,jdbcType = VARCHAR},
+			PKTASTEAG = PKTASTEAG + #{pkTasteAg,jdbcType = VARCHAR},
+			PKCONAG = PKCONAG + #{pkConAg,jdbcType = VARCHAR},
+			PKCONS = PKCONS + #{pkConS,jdbcType = VARCHAR},
+			PKCONCU = PKCONCU + #{pkConCu,jdbcType = VARCHAR},
+			PKCONPB = PKCONPB + #{pkConPb,jdbcType = VARCHAR},
+			PKCONZN = PKCONZN + #{pkConZn,jdbcType = VARCHAR},
+			PKCONAS = PKCONAS + #{pkConAs,jdbcType = VARCHAR},
+			PKCONSB = PKCONSB + #{pkConSb,jdbcType = VARCHAR},
+			PKJINZHAAU = PKJINZHAAU + #{pkJinzhaAu,jdbcType = VARCHAR},
+			PKJINZHAAG = PKJINZHAAG + #{pkJinzhaAg,jdbcType = VARCHAR},
+			PKHAOYAO = PKHAOYAO + #{pkHaoyao,jdbcType = VARCHAR},
+		  </if>
+		   <if test="upd == 'updsc'">
+		  	PKWETMINE = PKWETMINE - #{pkWetMine,jdbcType = VARCHAR},
+			PKDARKMINE = PKDARKMINE - #{pxDarkMine,jdbcType = VARCHAR},
+			PKTASTEAU = PKTASTEAU - #{pkTasteAu,jdbcType = VARCHAR},
+			PKCONAU = PKCONAU - #{pkConAu,jdbcType = VARCHAR},
+			PKTASTEAG = PKTASTEAG - #{pkTasteAg,jdbcType = VARCHAR},
+			PKCONAG = PKCONAG - #{pkConAg,jdbcType = VARCHAR},
+			PKCONS = PKCONS - #{pkConS,jdbcType = VARCHAR},
+			PKCONCU = PKCONCU - #{pkConCu,jdbcType = VARCHAR},
+			PKCONPB = PKCONPB - #{pkConPb,jdbcType = VARCHAR},
+			PKCONZN = PKCONZN - #{pkConZn,jdbcType = VARCHAR},
+			PKCONAS = PKCONAS - #{pkConAs,jdbcType = VARCHAR},
+			PKCONSB = PKCONSB - #{pkConSb,jdbcType = VARCHAR},
+			PKJINZHAAU = PKJINZHAAU - #{pkJinzhaAu,jdbcType = VARCHAR},
+			PKJINZHAAG = PKJINZHAAG - #{pkJinzhaAg,jdbcType = VARCHAR},
+			PKHAOYAO = PKHAOYAO - #{pkHaoyao,jdbcType = VARCHAR},
+		  </if>
+			ID = #{id,jdbcType = NUMERIC}
+		WHERE
+			ID = #{id,jdbcType = NUMERIC}
+	</update>
+	
+	<!--删除  -->
+	<delete id="delById">
+		DELETE FROM
+			MATER_PKXX
+		WHERE
+			ID IN
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!--查询  -->
+	<select id="select" resultMap="Pkxx">
+		SELECT
+			mp.ID,
+			mp.TOULIAODEPT,
+			mp.TOULIAOXZ,
+			mp.PKDATE,
+			mp.PKPERSON,
+			mp.PKWETMINE,
+			mp.PKDARKMINE,
+			mp.PKTASTEAU,
+			mp.PKCONAU,
+			mp.PKTASTEAG,
+			mp.PKCONAG,
+			mp.PKCONS,
+			mp.PKCONCU,
+			mp.PKCONPB,
+			mp.PKCONZN,
+			mp.PKCONAS,
+			mp.PKCONSB,
+			mp.PKJINZHAAU,
+			mp.PKJINZHAAG,
+			mp.PKHAOYAO,
+			mp.REMARK,
+			su.fullname AS fullName,
+			d.DEPTNAME AS deptName
+		FROM
+			MATER_PKXX mp
+		LEFT JOIN MATER_DEPT d ON d.ID = mp.TOULIAODEPT
+		LEFT JOIN sys_user su ON su.userId = mp.PKPERSON
+		WHERE
+			1=1
+		<if test="@Ognl@isNotEmpty(touliaoDept)">
+			AND mp.TOULIAODEPT = #{touliaoDept,jdbcType = VARCHAR}
+		</if>
+		<if test="@Ognl@isNotEmpty(touliaoXz)">
+			AND mp.TOULIAOXZ = #{touliaoXz,jdbcType = VARCHAR}
+		</if>
+		<if test="@Ognl@isNotEmpty(fullName)">
+			AND su.fullname LIKE '%${fullName}%'
+		</if>
+<!-- 		<if test="@Ognl@isNotEmpty(pkDate)"> -->
+<!-- 			AND DATE_FORMAT(mp.PKDATE,'%Y-%m-%d') = #{pkDate,jdbcType = VARCHAR} -->
+<!-- 		</if> -->
+	</select>
+	
+	<!--查询一条  -->
+	<select id="selectOne" resultMap="Pkxx">
+		SELECT
+			<include refid="allColumn"/>
+		FROM
+			MATER_PKXX
+		WHERE
+			ID = #{id,jdbcType = NUMERIC}
+	</select>
+</mapper>

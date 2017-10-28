@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Monitor">
+	<resultMap type="org.haze.mfm.mater.model.Monitor" id="Monitor">
+		<id column="ID" property="id" jdbcType="NUMERIC"/><!-- 编号 -->
+		<result column="PROPERTY" property="property" jdbcType="VARCHAR"/><!-- 性质 -->
+		<result column="SOURCE" property="source" jdbcType="VARCHAR"/><!-- 来源 -->
+		<result column="CLIENT" property="client" jdbcType="VARCHAR"/><!-- 客户 -->
+		<result column="CARNUM" property="carNum" jdbcType="VARCHAR"/><!-- 车号 -->
+		<result column="DRIVER" property="driver" jdbcType="VARCHAR"/><!-- 司机 -->
+		<result column="CHECI" property="checi" jdbcType="VARCHAR"/><!-- 车次 -->
+		<result column="MAOZHONG" property="maozhong" jdbcType="VARCHAR"/><!-- 毛重 -->
+		<result column="PIZHONG" property="pizhong" jdbcType="VARCHAR"/><!-- 皮重 -->
+		<result column="JINGZHONG" property="jingzhong" jdbcType="VARCHAR"/><!-- 净重 -->
+		<result column="WEIGHER" property="weigher" jdbcType="VARCHAR"/><!-- 过磅人 -->
+		<result column="AUDITOR" property="auditor" jdbcType="VARCHAR"/><!-- 审核人 -->
+		<result column="WEIGHDATE" property="weighDate" jdbcType="VARCHAR"/><!-- 时间 -->
+	</resultMap>
+	
+	
+	<!--查询所有  -->
+	<select id="select" resultMap="Monitor">
+		SELECT
+			*
+		FROM
+			MATER_MONITOR
+		WHERE 
+			1=1
+		ORDER BY WEIGHDATE DESC
+	</select>
+	
+		<!--增加  -->
+	<insert id="insert">
+		INSERT INTO MATER_MONITOR(
+			ID,
+			PROPERTY,
+			SOURCE,
+			CLIENT,
+			CARNUM,
+			DRIVER,
+			CHECI,
+			MAOZHONG,
+			PIZHONG,
+			JINGZHONG,
+			WEIGHER,
+			AUDITOR,
+			WEIGHDATE
+		)VALUES(
+			#{id,jdbcType=NUMERIC},
+			#{property,jdbcType=VARCHAR},
+			#{source,jdbcType=VARCHAR},
+			#{client,jdbcType=VARCHAR},
+			#{carNum,jdbcType=VARCHAR},
+			#{driver,jdbcType=VARCHAR},
+			#{checi,jdbcType=VARCHAR},
+			#{maozhong,jdbcType=VARCHAR},
+			#{pizhong,jdbcType=VARCHAR},
+			#{jingzhong,jdbcType=VARCHAR},
+			#{weigher,jdbcType=VARCHAR},
+			#{auditor,jdbcType=VARCHAR},
+			#{weighDate,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 根据车号查找车次信息 -->	
+	<select id="selectOne" resultMap="Monitor">
+		SELECT
+			ID,
+			PROPERTY,
+			SOURCE,
+			CLIENT,
+			CARNUM,
+			DRIVER,
+			CHECI,
+			MAOZHONG,
+			PIZHONG,
+			JINGZHONG,
+			WEIGHER,
+			AUDITOR,
+			WEIGHDATE
+		FROM
+			MATER_MONITOR
+		WHERE 
+			ID=#{id}
+	</select>
+	
+	
+		<!--修改  -->
+	<update id="update">
+		UPDATE 
+			MATER_MONITOR
+		SET
+			PIZHONG =  #{pizhong,jdbcType=VARCHAR},
+			JINGZHONG = #{jingzhong,jdbcType=VARCHAR}
+		WHERE
+			ID = #{id}
+	</update>
+	
+	
+	
+</mapper>

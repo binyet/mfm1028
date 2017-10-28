@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Ares">
+	<resultMap type="org.haze.mfm.mater.model.Ares" id="Ares">
+		<id column="ID" property="id" jdbcType="NUMERIC"/>
+		<result column="ARESNAME" property="aresName" jdbcType="VARCHAR"/>
+		<result column="ARESMIANJI" property="aresMianji" jdbcType="VARCHAR"/>
+		<result column="ARESRONGLIANG" property="aresRongliang" jdbcType="VARCHAR"/>
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!--增加  -->
+	<insert id="insert">
+		INSERT INTO MATER_ARES(
+			ID,
+			ARESNAME,
+			ARESMIANJI,
+			ARESRONGLIANG,
+			REMARK
+		)VALUES(
+			#{id,jdbcType=NUMERIC},
+			#{aresName,jdbcType=VARCHAR},
+			#{aresMianji,jdbcType=VARCHAR},
+			#{aresRongliang,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!--删除  -->
+	<delete id="delById">
+		DELETE FROM
+			MATER_ARES
+		WHERE
+			ID IN
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!--修改  -->
+	<update id="update">
+		UPDATE 
+			MATER_ARES
+		SET
+			ARESNAME =  #{aresName,jdbcType=VARCHAR},
+			ARESMIANJI = #{aresMianji,jdbcType=VARCHAR},
+			ARESRONGLIANG = #{aresRongliang,jdbcType=VARCHAR},
+			REMARK = #{remark,jdbcType=VARCHAR}
+		WHERE
+			ID = #{id}
+	</update>
+	
+	<!--查询一条  -->
+	<select id="selectOne" resultMap="Ares">
+		SELECT
+			ID,
+			ARESNAME,
+			ARESMIANJI,
+			ARESRONGLIANG,
+			REMARK
+		FROM
+			MATER_ARES
+		WHERE
+			ID = #{id}
+	</select>
+	
+	<!--查询所有  -->
+	<select id="select" resultMap="Ares">
+		SELECT
+			ID,
+			ARESNAME,
+			ARESMIANJI,
+			ARESRONGLIANG,
+			REMARK
+		FROM
+			MATER_ARES
+		WHERE
+			1=1
+		<if test="@Ognl@isNotEmpty(aresName)">AND ARESNAME = #{aresName}</if>
+		<if test="@Ognl@isNotEmpty(aresMianji)">AND ARESMIANJI = #{aresMianji}</if>
+		<if test="@Ognl@isNotEmpty(aresRongliang)">AND ARESRONGLIANG = #{aresRongliang}</if>
+	</select>
+</mapper>

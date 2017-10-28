@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Weigher">
+	<resultMap type="org.haze.mfm.mater.model.Weigher" id="Weigher">
+		<id column="ID" property="id" jdbcType="NUMERIC"/><!-- 编号 -->
+		<result column="WEIGHER" property="weigherName" jdbcType="VARCHAR"/><!-- 性质 -->
+		
+	</resultMap>
+
+
+	<!--查询所有  -->
+	<select id="select" resultMap="Weigher">
+		SELECT
+			ID,
+			WEIGHER
+		FROM
+			MATER_WEIGHER
+		WHERE 
+			1=1
+	</select>
+	
+	
+</mapper>

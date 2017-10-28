@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Report">
+	<resultMap type="org.haze.mfm.mater.model.Report" id="Report">
+		<id column="REPORT_ID" property="id" jdbcType="NUMERIC" />
+		<result column="TASK_ID" property="taskId" jdbcType="NUMERIC" />
+		<result column="REPORT_TYPE" property="type" jdbcType="VARCHAR"/>
+		<result column="REPORT_NONGDU" property="nongdu" jdbcType="VARCHAR"/>
+		<result column="REPORT_XIDU" property="xidu" jdbcType="VARCHAR"/>
+		<result column="REPORT_PH" property="PH" jdbcType="VARCHAR"/>
+		<result column="REPORT_HAUNGYAO" property="huangyao" jdbcType="VARCHAR"/>
+		<result column="REPORT_HEIYAO" property="heiyao" jdbcType="VARCHAR"/>
+		<result column="REPORT_OIL" property="oil" jdbcType="VARCHAR"/>
+		<result column="REPORT_NACN" property="Nacn" jdbcType="VARCHAR"/>
+		<result column="REPORT_CAO" property="Cao" jdbcType="VARCHAR"/>
+		<result column="REPORT_KUANGJIANG" property="kuangjiang" jdbcType="VARCHAR"/>
+		<result column="REPORT_MOKUANG" property="mokuang" jdbcType="VARCHAR"/>
+		<result column="REPORT_OUTTIME" property="outTime" jdbcType="VARCHAR"/>
+		<result column="REPORT_ZHA_AU" property="zhaAu" jdbcType="VARCHAR"/>
+		<result column="REPORT_ZHA_AG" property="zhaAg" jdbcType="VARCHAR"/>
+		<result column="REPORT_LEACH_AU" property="leachAu" jdbcType="VARCHAR"/>
+		<result column="REPORT_LEACH_AG" property="leachAg" jdbcType="VARCHAR"/>
+		<result column="REPORT_CONSUME_NACN" property="consumeNaCN" jdbcType="VARCHAR"/>
+		<result column="REPORT_CONSUME_CAO" property="consumeCaO" jdbcType="VARCHAR"/>
+		<result column="REPORT_STATE" property="state" jdbcType="VARCHAR"/>
+		<result column="REPORT_REMARK" property="remark" jdbcType="VARCHAR"/>
+		<result column="REPORT_TIME" property="time" jdbcType="VARCHAR"/>
+		<result column="REPORT_MAN" property="man" jdbcType="VARCHAR"/>
+		<result column="BANCI" property="banci" jdbcType="VARCHAR"/>
+		<result column="TASK_TRAIN" property="train" jdbcType="VARCHAR"/>
+		<result column="ARESNAME" property="aresName" jdbcType="VARCHAR"/>
+		
+	</resultMap>
+
+	<!--所有字段  -->
+	<sql id="allColumn">
+		REPORT_ID,
+		TASK_ID,
+		REPORT_TYPE,
+		REPORT_NONGDU,
+		REPORT_XIDU,
+		REPORT_PH,
+		REPORT_HUANGYAO,
+		REPORT_HEIYAO,
+		REPORT_OIL,
+		REPORT_NACN,
+		REPORT_CAO,
+		REPORT_KUANGJIANG,
+		REPORT_MOKUANG,
+		REPORT_ZHA_AU,
+		REPORT_ZHA_AG,
+		REPORT_LEACH_AU,
+		REPORT_LEACH_AG,
+		REPORT_CONSUME_NACN,
+		REPORT_CONSUME_CAO,
+		REPORT_STATE,
+		REPORT_REMARK,
+		REPORT_TIME,
+		REPORT_MAN
+	</sql>
+	
+	<select id="select" resultMap="Report">
+		SELECT
+			LIMS_REPORT.REPORT_ID,
+			LIMS_REPORT.TASK_ID,
+			LIMS_TASK.BANCI,
+			LIMS_TASK.TASK_TRAIN,
+			LIMS_REPORT.REPORT_TYPE,
+			LIMS_REPORT.REPORT_NONGDU,
+			LIMS_REPORT.REPORT_XIDU,
+			LIMS_REPORT.REPORT_PH,
+			LIMS_REPORT.REPORT_HUANGYAO,
+			LIMS_REPORT.REPORT_HEIYAO,
+			LIMS_REPORT.REPORT_OIL,
+			LIMS_REPORT.REPORT_NACN,
+			LIMS_REPORT.REPORT_CAO,
+			LIMS_REPORT.REPORT_STATE
+		FROM
+			LIMS_REPORT, LIMS_TASK
+		WHERE
+			LIMS_TASK.TASK_ID = LIMS_REPORT.TASK_ID 
+	</select>
+	
+
+</mapper>

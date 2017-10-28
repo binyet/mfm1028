@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Dept">
+	<resultMap type="org.haze.mfm.mater.model.Dept" id="Dept">
+		<id  column="ID" property="id" jdbcType="NUMERIC"/>
+		<result column="DEPTNAME" property="deptName" jdbcType="VARCHAR"/>
+		<result column="ORGID" property="orgId" jdbcType="NUMERIC"/>
+		<result column="XITONG" property="xiTong" jdbcType="VARCHAR"/>
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!--增加  -->
+	<insert id="insert">
+		INSERT INTO
+			MATER_DEPT(
+				ID,
+				DEPTNAME,
+				ORGID,
+				XITONG,
+				REMARK
+			)VALUES(
+				#{id,jdbcType = NUMERIC},
+				#{deptName,jdbcType = VARCHAR},
+				#{orgId,jdbcType = NUMERIC},
+				#{xiTong,jdbcType = VARCHAR},
+				#{remark,jdbcType = VARCHAR}
+			)
+			
+	</insert>
+	
+	<!--删除  -->
+	<delete id="delById">
+		DELETE FROM
+			MATER_DEPT
+		WHERE
+			ID IN
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!--修改  -->
+	<update id="update">
+		UPDATE
+			MATER_DEPT
+		SET
+			DEPTNAME = #{deptName,jdbcType = VARCHAR},
+			ORGID = #{orgId,jdbcType = NUMERIC},
+			XITONG = #{xiTong,jdbcType = VARCHAR},
+			REMARK = #{remark,jdbcType = VARCHAR}
+		WHERE
+			ID = #{id,jdbcType = NUMERIC}
+	</update>
+	
+	<!--查询  -->
+	<select id="select" resultMap="Dept">
+		SELECT
+			d.ID,
+			d.DEPTNAME,
+			d.ORGID,
+			d.XITONG,
+			d.REMARK,
+			o.orgName AS orgName
+		FROM
+			MATER_DEPT d
+		LEFT JOIN sys_org o ON d.ORGID = o.ORGID
+	</select>
+	
+	<!--查询一条  -->
+	<select id="selectOne" resultMap="Dept">
+		SELECT
+			d.ID,
+			d.DEPTNAME,
+			d.ORGID,
+			d.XITONG,
+			REMARK,
+			o.orgName AS orgName
+		FROM
+			MATER_DEPT d
+		LEFT JOIN sys_org o ON d.ORGID = o.ORGID
+		WHERE
+			d.ID = #{id,jdbcType = NUMERIC}
+	</select>
+</mapper>

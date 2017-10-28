@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Property">
+	<resultMap type="org.haze.mfm.mater.model.Property" id="Property">
+		<id column="ID" property="id" jdbcType="NUMERIC"/><!-- 编号 -->
+		<result column="PROPERTYNAME" property="propertyName" jdbcType="VARCHAR"/><!-- 性质 -->
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/><!-- 备注 -->
+	</resultMap>
+
+
+	<!--查询所有  -->
+	<select id="select" resultMap="Property">
+		SELECT
+			ID,
+			PROPERTYNAME,
+			REMARK
+		FROM
+			MATER_PROPERTY
+		WHERE 
+			1=1
+		<if test="@Ognl@isNotEmpty(propertyName)">AND PROPERTYNAME = #{propertyName}</if>
+			
+	</select>
+	
+		<!--增加  -->
+	<insert id="insert">
+		INSERT INTO MATER_PROPERTY(
+			ID,
+			PROPERTYNAME,
+			REMARK
+		)VALUES(
+			#{id,jdbcType=NUMERIC},
+			#{propertyName,jdbcType=VARCHAR},
+			#{remark, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+			<!-- 修改 -->
+	<update id="update">
+		
+		UPDATE
+			MATER_PROPERTY
+		SET
+			ID = #{id,jdbcType=NUMERIC},
+			PROPERTYNAME = #{propertyName,jdbcType=VARCHAR},
+			REMARK = #{remark,jdbcType=VARCHAR}
+		WHERE 
+			ID = #{id}
+	</update>
+	
+		<!--查询一个  -->
+	<select id="selectOne" resultMap="Property">
+		SELECT
+			ID,
+			PROPERTYNAME,
+			REMARK
+		FROM
+			MATER_PROPERTY
+		WHERE 
+			ID = #{id}
+	</select>
+	
+			
+		<!--删除  -->
+	<delete id="delById">
+		DELETE FROM
+			MATER_PROPERTY
+		WHERE
+			ID IN
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+</mapper>

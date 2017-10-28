@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Driver">
+	<resultMap type="org.haze.mfm.mater.model.Driver" id="Driver">
+		<id column="ID" property="id" jdbcType="NUMERIC"/><!-- 编号 -->
+		<result column="DRIVER" property="driverName" jdbcType="VARCHAR"/><!-- 司机名称 -->
+		<result column="CLIENT" property="clientName" jdbcType="VARCHAR"/><!-- 所属客户 -->
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/><!-- 备注 -->
+	</resultMap>
+
+
+	<!--查询所有  -->
+	<select id="select" resultMap="Driver">
+		SELECT
+			ID,
+			DRIVER,
+			CLIENT,
+			REMARK
+		FROM
+			MATER_DRIVER
+		WHERE 
+			1=1
+		<if test="@Ognl@isNotEmpty(clientName)">AND CLIENT = #{clientName}</if>
+		<if test="@Ognl@isNotEmpty(driverName)">AND DRIVER = #{driverName}</if>
+	</select>
+	
+		<!--增加  -->
+	<insert id="insert">
+		INSERT INTO MATER_DRIVER(
+			ID,
+			DRIVER, 
+			CLIENT, 
+			REMARK
+		)VALUES(
+			#{id,jdbcType=NUMERIC},
+			#{driverName,jdbcType=VARCHAR},
+			#{clientName, jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+		
+	<!-- 修改 -->
+	<update id="update">
+		
+		UPDATE
+			MATER_DRIVER
+		SET
+			CLIENT = #{clientName,jdbcType=VARCHAR},
+			DRIVER = #{driverName,jdbcType=VARCHAR},
+			REMARK = #{remark, jdbcType=VARCHAR}
+		WHERE 
+			ID = #{id}
+	</update>
+	
+		<!--查询一个  -->
+	<select id="selectOne" resultMap="Driver">
+		SELECT
+			ID,
+			DRIVER,
+			CLIENT,
+			REMARK
+		FROM
+			MATER_DRIVER
+		WHERE 
+			ID = #{id}
+	</select>
+	
+		<!--删除  -->
+	<delete id="delById">
+		DELETE FROM
+			MATER_DRIVER
+		WHERE
+			ID IN
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+</mapper>

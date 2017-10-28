@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.StockDetail">
+	<resultMap type="org.haze.mfm.mater.model.StockDetail" id="StockDetail">
+		<id column="ID" property="id" jdbcType="NUMERIC"/>
+		<result column="STOCKID" property="stockId" jdbcType="NUMERIC"/>
+		<result column="CBID" property="cbId" jdbcType="VARCHAR"/>
+		<result column="NAME" property="name" jdbcType="VARCHAR"/>
+		<result column="CHECI" property="checi" jdbcType="VARCHAR"/>
+		<result column="WETMINE" property="wetMine" jdbcType="VARCHAR"/>
+		<result column="DARKMINE" property="darkMine" jdbcType="VARCHAR"/>
+		<result column="WET" property="wet" jdbcType="VARCHAR"/>
+		<result column="TASTEAU" property="tasteAu" jdbcType="VARCHAR"/>
+		<result column="CONAU" property="conAu" jdbcType="VARCHAR"/>
+		<result column="TASTEAG" property="tasteAg" jdbcType="VARCHAR"/>
+		<result column="CONAG" property="conAg" jdbcType="VARCHAR"/>
+		<result column="TASTES" property="tasteS" jdbcType="VARCHAR"/>
+		<result column="CONS" property="conS" jdbcType="VARCHAR"/>
+		<result column="JINZHAAU" property="jinzhaAu" jdbcType="VARCHAR"/>
+		<result column="JINZHAAG" property="jinzhaAg" jdbcType="VARCHAR"/>
+		<result column="HAOYAO" property="haoyao" jdbcType="VARCHAR"/>
+		<result column="CU" property="cu" jdbcType="VARCHAR"/>
+		<result column="PB" property="pb" jdbcType="VARCHAR"/>
+		<result column="ZN" property="zn" jdbcType="VARCHAR"/>
+		<result column="ARSENIC" property="arsenic" jdbcType="VARCHAR"/>
+		<result column="SB" property="sb" jdbcType="VARCHAR"/>
+		<result column="ISTOULIAO" property="isTouliao" jdbcType="VARCHAR"/>
+		<result column="MVID" property="mvId" jdbcType="NUMERIC"/>
+		<result column="MATERDATE" property="meterDate_Str" jdbcType="VARCHAR"/>
+		<result column="MINE" property="mine" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!--所有字段  -->
+	<sql id="allColumn">
+		ID,
+		STOCKID,
+		CBID,
+		NAME,
+		CHECI,
+		WETMINE,
+		DARKMINE,
+		WET,
+		TASTEAU,
+		CONAU,
+		TASTEAG,
+		CONAG,
+		TASTES,
+		CONS,
+		JINZHAAU,
+		JINZHAAG,
+		HAOYAO,
+		CU,
+		PB,
+		ZN,
+		ARSENIC,
+		SB,
+		ISTOULIAO,
+		MVID,
+		MATERDATE,
+		MINE
+	</sql>
+	
+	<!--增加  -->
+	<insert id="insert">
+		INSERT INTO MATER_STOCK_DETAIL(
+		 <include refid="allColumn"/>
+		)VALUES(
+			#{id,jdbcType = NUMERIC},
+			#{stockId,jdbcType = NUMERIC},
+			#{cbId,jdbcType = VARCHAR},
+			#{name,jdbcType = VARCHAR},
+			#{checi,jdbcType = VARCHAR},
+			#{wetMine,jdbcType = VARCHAR},
+			#{darkMine,jdbcType = VARCHAR},
+			#{wet,jdbcType = VARCHAR},
+			#{tasteAu,jdbcType = VARCHAR},
+			#{conAu,jdbcType = VARCHAR},
+			#{tasteAg,jdbcType = VARCHAR},
+			#{conAg,jdbcType = VARCHAR},
+			#{tasteS,jdbcType = VARCHAR},
+			#{conS,jdbcType = VARCHAR},
+			#{jinzhaAu,jdbcType = VARCHAR},
+			#{jinzhaAg,jdbcType = VARCHAR},
+			#{haoyao,jdbcType = VARCHAR},
+			#{cu,jdbcType = VARCHAR},
+			#{pb,jdbcType = VARCHAR},
+			#{zn,jdbcType = VARCHAR},
+			#{arsenic,jdbcType = VARCHAR},
+			#{sb,jdbcType = VARCHAR},
+			#{isTouliao,jdbcType = VARCHAR},
+			#{mvId,jdbcType = NUMERIC},
+			#{meterDate_Str,jdbcType = VARCHAR},
+			#{mine,jdbcType = VARCHAR}
+		)
+	</insert>
+	
+	<!--将车次信息修改为已投料  -->
+	<update id="update">
+		UPDATE
+			MATER_STOCK_DETAIL
+		SET
+			ISTOULIAO = 1
+		WHERE
+			ID = #{id,jdbcType = NUMERIC}
+	</update>
+	
+	<!--将车次信息修改为未投料  -->
+	<update id="updateNotTouliao">
+		UPDATE
+			MATER_STOCK_DETAIL
+		SET
+			ISTOULIAO = 0
+		WHERE
+			ID = #{id,jdbcType = NUMERIC}
+	</update>
+	
+	<!--补充品位信息  -->
+	<update id="updateTaste">
+		UPDATE
+			MATER_STOCK_DETAIL
+		SET
+			WETMINE = #{wetMine,jdbcType = VARCHAR},
+			DARKMINE = #{darkMine,jdbcType = VARCHAR},
+			WET = #{wet,jdbcType = VARCHAR},
+			TASTEAU = #{tasteAu,jdbcType = VARCHAR},
+			CONAU = #{conAu,jdbcType = VARCHAR},
+			TASTEAG = #{tasteAg,jdbcType = VARCHAR},
+			CONAG = #{conAg,jdbcType = VARCHAR},
+			TASTES = #{tasteS,jdbcType = VARCHAR},
+			CONS = #{conS,jdbcType = VARCHAR},
+			JINZHAAU = #{jinzhaAu,jdbcType = VARCHAR},
+			JINZHAAG = #{jinzhaAg,jdbcType = VARCHAR},
+			HAOYAO = #{haoyao,jdbcType = VARCHAR},
+			CU = #{cu,jdbcType = VARCHAR},
+			PB = #{pb,jdbcType = VARCHAR},
+			ZN = #{zn,jdbcType = VARCHAR},
+			ARSENIC = #{arsenic,jdbcType = VARCHAR},
+			SB = #{sb,jdbcType = VARCHAR}
+		WHERE
+			ID = #{id,jdbcType = NUMERIC}
+	</update>
+	
+	<!--删除  -->
+	<delete id="delById">
+		DELETE FROM
+			MATER_STOCK_DETAIL
+		WHERE
+			ID IN
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!--删除  根据主表id删除-->
+	<delete id="delBystockId">
+		DELETE FROM
+			MATER_STOCK_DETAIL
+		WHERE
+			STOCKID IN
+		<foreach collection="array" open="(" close=")" separator="," item="stockId">
+			#{stockId}
+		</foreach>
+	</delete>
+	
+	<!--查询  根据库存查询查询库存详细-->
+	<select id="select" resultMap="StockDetail">
+		SELECT 
+			sd.ID,
+			sd.STOCKID,
+			sd.CBID,
+			sd.NAME,
+			sd.CHECI,
+			sd.WETMINE,
+			sd.DARKMINE,
+			sd.WET,
+			sd.TASTEAU,
+			sd.CONAU,
+			sd.TASTEAG,
+			sd.CONAG,
+			sd.TASTES,
+			sd.CONS,
+			sd.JINZHAAU,
+			sd.JINZHAAG,
+			sd.HAOYAO,
+			sd.CU,
+			sd.PB,
+			sd.ZN,
+			sd.ARSENIC,
+			sd.SB,
+			sd.ISTOULIAO,
+			sd.MVID,
+			ma.ARESNAME AS aresName,
+			sd.MATERDATE,
+			sd.MINE
+		FROM
+			MATER_STOCK_DETAIL sd 
+		LEFT JOIN mater_stock ms ON ms.ID = sd.STOCKID
+		LEFT JOIN mater_ares ma ON ma.ID = ms.ARESID
+		WHERE
+			1=1
+			<if test="@Ognl@isNotEmpty(isPinwei)">
+				AND sd.TASTEAU IS NOT NULL
+				AND sd.TASTEAU > 0
+			</if>
+			<if test="@Ognl@isNotEmpty(aresId)">
+				AND ma.ID =#{aresId}
+			</if>
+			<if test="stockId != null and stockId !=0">
+				AND sd.STOCKID = #{stockId,jdbcType = NUMERIC}
+			</if>
+			<if test="@Ognl@isNotEmpty(cbId)">
+				AND sd.CBID = ltrim(rtrim(#{cbId,jdbcType = VARCHAR})) 
+			</if>
+			<if test="@Ognl@isNotEmpty(checi)">
+				AND sd.CHECI = #{checi,jdbcType = VARCHAR}
+			</if>
+			<if test="@Ognl@isNotEmpty(isTouliao)">
+				AND sd.ISTOULIAO = #{isTouliao,jdbcType = VARCHAR}
+			</if>
+	</select>
+	
+	<!--查询一条  -->
+	<select id="selectOne" resultMap="StockDetail">
+		SELECT 
+			sd.ID,
+			sd.STOCKID,
+			sd.CBID,
+			sd.NAME,
+			sd.CHECI,
+			sd.WETMINE,
+			sd.DARKMINE,
+			sd.WET,
+			sd.TASTEAU,
+			sd.CONAU,
+			sd.TASTEAG,
+			sd.CONAG,
+			sd.TASTES,
+			sd.CONS,
+			sd.JINZHAAU,
+			sd.JINZHAAG,
+			sd.HAOYAO,
+			sd.CU,
+			sd.PB,
+			sd.ZN,
+			sd.ARSENIC,
+			sd.SB,
+			sd.ISTOULIAO,
+			sd.MVID,
+			ma.ARESNAME AS aresName,
+			sd.MATERDATE,
+			sd.MINE
+		FROM
+			MATER_STOCK_DETAIL sd 
+		LEFT JOIN mater_stock ms ON ms.ID = sd.STOCKID
+		LEFT JOIN mater_ares ma ON ma.ID = ms.ARESID
+		WHERE
+			sd.ID = #{id,jdbcType = NUMERIC}
+	</select>
+	
+	<!--根据区域查询一段时间每一个区域的入库量  -->
+	<select id="selectDarkMine" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			ma.ID  AS aresId,
+			ma.ARESNAME AS aresName,
+			SUM(msd.DARKMINE) AS darkMine
+		FROM
+			mater_ares ma
+	LEFT JOIN	mater_stock ms ON ma.ID = ms.ARESID
+	LEFT JOIN mater_stock_detail msd ON ms.ID = msd.STOCKID
+		WHERE
+			1=1
+			<if test="@Ognl@isNotEmpty(beginDate)">
+				AND DATE_FORMAT(ms.STOCKDATE,'%Y-%m-%d') &gt;= #{beginDate}
+			</if>
+			<if test="@Ognl@isNotEmpty(endDate)">
+				AND DATE_FORMAT(ms.STOCKDATE,'%Y-%m-%d') &lt;= #{endDate}
+			</if>
+	GROUP BY 
+		ma.ID
+	</select>
+	
+	<!--查询每一个区域的 配矿量 -->
+	<select id="selectPkmine" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			SUM(msd.DARKMINE) AS pkMine
+		FROM
+		  mater_pkxx_detail mpd
+			LEFT JOIN mater_pkxx mp ON mpd.PKXXID = mp.ID
+			LEFT JOIN mater_stock_detail msd ON msd.ID = mpd.STOCKDETAILID
+			LEFT JOIN mater_stock ms ON ms.ID = msd.STOCKID
+			LEFT JOIN mater_ares ma ON ma.ID = ms.ARESID
+			WHERE
+				ma.ID = #{aresId}
+			<if test="@Ognl@isNotEmpty(beginDate)">
+				AND DATE_FORMAT(mp.PKDATE,'%Y-%m-%d') &gt;= #{beginDate}
+			</if>
+			<if test="@Ognl@isNotEmpty(endDate)">
+				AND DATE_FORMAT(mp.PKDATE,'%Y-%m-%d') &lt;= #{endDate}
+			</if>
+	</select>
+</mapper>

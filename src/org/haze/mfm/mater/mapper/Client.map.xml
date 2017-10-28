@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Client">
+	<resultMap type="org.haze.mfm.mater.model.Client" id="Client">
+		<id column="ID" property="id" jdbcType="NUMERIC"/><!-- 编号 -->
+		<result column="CLIENT" property="clientName" jdbcType="VARCHAR"/><!-- 名称 -->
+		<result column="CHECI" property="checi" jdbcType="VARCHAR"/><!-- 车次 -->
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/><!-- 描述 -->
+	</resultMap>
+
+
+	<!--查询所有  -->
+	<select id="select" resultMap="Client">
+		SELECT
+			ID,
+			CLIENT,
+			CHECI,
+			REMARK
+		FROM
+			MATER_CLIENT
+		WHERE 
+			1=1
+		<if test="@Ognl@isNotEmpty(clientName)">AND CLIENT = #{clientName}</if>
+			
+	</select>
+	
+	
+	<!-- 修改 -->
+	<update id="update">
+		
+		UPDATE
+			MATER_CLIENT
+		SET
+			CLIENT = #{clientName,jdbcType=VARCHAR},
+			CHECI = #{checi,jdbcType=VARCHAR},
+			REMARK = #{remark, jdbcType=VARCHAR}
+		WHERE 
+			ID = #{id}
+	</update>
+	
+		<!--增加  -->
+	<insert id="insert">
+		INSERT INTO MATER_CLIENT(
+			ID,
+			CLIENT, 
+			CHECI,
+			REMARK
+		)VALUES(
+			#{id,jdbcType=NUMERIC},
+			#{clientName,jdbcType=VARCHAR},
+			#{checi, jdbcType=VARCHAR},
+			#{remark, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	
+		<!--查询一个  -->
+	<select id="selectOne" resultMap="Client">
+		SELECT
+			ID,
+			CLIENT,
+			CHECI,
+			REMARK
+		FROM
+			MATER_CLIENT
+		WHERE 
+			ID = #{id}
+	</select>
+	
+		<!--删除  -->
+	<delete id="delById">
+		DELETE FROM
+			MATER_CLIENT
+		WHERE
+			ID IN
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+</mapper>

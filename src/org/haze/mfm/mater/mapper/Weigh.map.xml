@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.Weigh">
+	<resultMap type="org.haze.mfm.mater.model.Weigh" id="Weigh">
+		<id column="ID" property="id" jdbcType="NUMERIC"/><!-- 编号 -->
+		<result column="PROPERTYNAME" property="property" jdbcType="VARCHAR"/><!-- 性质 -->
+		<result column="SOURCE" property="source" jdbcType="VARCHAR"/><!-- 来源 -->
+		<result column="CLIENT" property="client" jdbcType="VARCHAR"/><!-- 客户 -->
+		<result column="CARNUM" property="carNum" jdbcType="VARCHAR"/><!-- 车号 -->
+		<result column="DRIVER" property="driver" jdbcType="VARCHAR"/><!-- 司机 -->
+		<result column="CHECI" property="checi" jdbcType="VARCHAR"/><!-- 车次 -->
+		<result column="MAOZHONG" property="maozhong" jdbcType="VARCHAR"/><!-- 毛重 -->
+		<result column="PIZHONG" property="pizhong" jdbcType="VARCHAR"/><!-- 皮重 -->
+		<result column="JINGZHONG" property="jingzhong" jdbcType="VARCHAR"/><!-- 净重 -->
+		<result column="WEIGHER" property="weigher" jdbcType="VARCHAR"/><!-- 过磅人 -->
+		<result column="AUDITOR" property="auditor" jdbcType="VARCHAR"/><!-- 审核人 -->
+		<result column="WEIGHDATE" property="weighDate" jdbcType="VARCHAR"/><!-- 时间 -->
+		<result column="ARESNAME" property="aresName" jdbcType="VARCHAR"/><!-- 卸料区域 -->
+		<result column="MAIDUAN" property="maiduan" jdbcType="VARCHAR"/><!-- 买断 -->
+		<result column="STARTDATE" property="startDate" jdbcType="VARCHAR"/><!-- 查询使用的开始时间 -->
+		<result column="ENDDATE" property="startDate" jdbcType="VARCHAR"/><!-- 查询使用的结束时间 -->
+		
+	</resultMap>
+	
+	
+	<!--查询所有  -->
+	<select id="select" resultMap="Weigh">
+		SELECT
+			MATER_WEIGH.ID,
+			MATER_PROPERTY.PROPERTYNAME,
+			MATER_WEIGH.SOURCE,
+			MATER_CLIENT.CLIENT,
+			MATER_WEIGH.CARNUM,
+			MATER_WEIGH.DRIVER,
+			MATER_WEIGH.CHECI,
+			MATER_WEIGH.MAOZHONG,
+			MATER_WEIGH.PIZHONG,
+			MATER_WEIGH.JINGZHONG,
+			MATER_WEIGH.ARESNAME,
+			MATER_WEIGH.WEIGHER,
+			MATER_WEIGH.AUDITOR,
+			MATER_WEIGH.WEIGHDATE, 
+			MATER_WEIGH.MAIDUAN
+		FROM
+			MATER_WEIGH, MATER_CLIENT, MATER_PROPERTY
+		WHERE 
+			MATER_CLIENT.ID = MATER_WEIGH.CLIENT AND MATER_PROPERTY.ID = MATER_WEIGH.PROPERTY
+		<if test="@Ognl@isNotEmpty(client)">AND MATER_WEIGH.CLIENT = #{client}</if>
+		<if test="@Ognl@isNotEmpty(property)">AND MATER_WEIGH.PROPERTY = #{property}</if>
+		<if test="@Ognl@isNotEmpty(weigher)">AND MATER_WEIGH.WEIGHER = #{weigher}</if>
+		<if test="@Ognl@isNotEmpty(source)">AND MATER_WEIGH.SOURCE = #{source}</if>
+		<if test="@Ognl@isNotEmpty(endDate)">AND MATER_WEIGH.WEIGHDATE &lt;= #{endDate}</if>  <!-- &lt;转义字符'<' -->
+		<if test="@Ognl@isNotEmpty(startDate)">AND MATER_WEIGH.WEIGHDATE &gt;= #{startDate}</if>  <!-- &gt;转义字符'>' -->
+		
+		ORDER BY WEIGHDATE DESC
+	</select>
+	
+		<!--增加  -->
+	<insert id="insert">
+		INSERT INTO MATER_WEIGH(
+			ID,
+			PROPERTY,
+			SOURCE,
+			CLIENT,
+			CARNUM,
+			DRIVER,
+			CHECI,
+			MAOZHONG,
+			PIZHONG,
+			JINGZHONG,
+			WEIGHER,
+			AUDITOR,
+			WEIGHDATE,
+			ARESNAME,
+			MAIDUAN
+		)VALUES(
+			#{id,jdbcType=NUMERIC},
+			#{property,jdbcType=VARCHAR},
+			#{source,jdbcType=VARCHAR},
+			#{client,jdbcType=VARCHAR},
+			#{carNum,jdbcType=VARCHAR},
+			#{driver,jdbcType=VARCHAR},
+			#{checi,jdbcType=VARCHAR},
+			#{maozhong,jdbcType=VARCHAR},
+			#{pizhong,jdbcType=VARCHAR},
+			#{jingzhong,jdbcType=VARCHAR},
+			#{weigher,jdbcType=VARCHAR},
+			#{auditor,jdbcType=VARCHAR},
+			#{weighDate,jdbcType=VARCHAR},
+			#{aresName,jdbcType=VARCHAR},
+			#{maiduan, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 根据车号查找车次信息 -->	
+	<select id="selectOne" resultMap="Weigh">
+		SELECT
+			ID,
+			PROPERTY,
+			SOURCE,
+			CLIENT,
+			CARNUM,
+			DRIVER,
+			CHECI,
+			MAOZHONG,
+			PIZHONG,
+			JINGZHONG,
+			WEIGHER,
+			AUDITOR,
+			WEIGHDATE,
+			ARESNAME, 
+			MAIDUAN
+		FROM
+			MATER_WEIGH
+		WHERE 
+			ID=#{id}
+	</select>
+	
+	
+		<!--修改  -->
+	<update id="update">
+		UPDATE 
+			MATER_WEIGH
+		SET
+			PROPERTY = #{property,jdbcType=VARCHAR},
+			SOURCE = #{source,jdbcType=VARCHAR},
+			CLIENT = #{client,jdbcType=VARCHAR},
+			CARNUM = #{carNum,jdbcType=VARCHAR},
+			DRIVER = #{driver,jdbcType=VARCHAR},
+			CHECI = #{checi,jdbcType=VARCHAR},
+			MAOZHONG = #{maozhong,jdbcType=VARCHAR},
+			PIZHONG = #{pizhong,jdbcType=VARCHAR},
+			JINGZHONG = #{jingzhong,jdbcType=VARCHAR},
+			ARESNAME = #{aresName, jdbcType=VARCHAR},
+			WEIGHER = #{weigher,jdbcType=VARCHAR},
+			AUDITOR = #{auditor,jdbcType=VARCHAR},
+			WEIGHDATE = #{weighDate,jdbcType=VARCHAR},
+			MAIDUAN = #{maiduan,jdbcType=VARCHAR}
+		WHERE
+			ID = #{id}
+	</update>
+	
+	
+</mapper>

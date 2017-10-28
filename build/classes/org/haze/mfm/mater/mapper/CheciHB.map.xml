@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.haze.mfm.mater.model.CheciHB">
+	<resultMap type="org.haze.mfm.mater.model.CheciHB" id="CheciHB">
+		<id column="ID" property="id" jdbcType="NUMERIC"/><!-- 编号 -->
+		<result column="PROPERTY" property="property" jdbcType="VARCHAR"/><!-- 性质 -->
+		<result column="JINGZHONG" property="jingzhong" jdbcType="VARCHAR"/><!-- 净重 -->
+		<result column="ARESNAME" property="aresName" jdbcType="VARCHAR"/><!-- 区域 -->
+		<result column="CLIENT" property="client" jdbcType="VARCHAR"/><!-- 客户 -->
+		<result column="CHECI" property="checi" jdbcType="VARCHAR"/><!-- 车次 -->
+		<result column="WEIGHDATE" property="weighDate" jdbcType="VARCHAR"/><!-- 时间 -->
+	</resultMap>
+	
+	
+	<!--查询所有  -->
+	<select id="select" resultMap="CheciHB">
+		SELECT 
+			* 
+		FROM 
+			MATER_CHECI 
+		WHERE 
+			ARESNAME IN (
+  				SELECT ARESNAME
+  				FROM MATER_TEST
+  				WHERE ARESNAME = #{aresName}
+			)
+	</select>
+	
+	<select id="selectOne" resultMap="CheciHB">
+		SELECT 
+			*
+		FROM
+			MATER_TEST
+		WHERE
+			ID = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE 
+			MATER_CHECI
+		SET
+			ARESNAME =  #{aresName,jdbcType=VARCHAR}
+		WHERE
+			ID = #{id}
+	</update>
+
+
+</mapper>
